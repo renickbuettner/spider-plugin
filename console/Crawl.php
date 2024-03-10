@@ -36,12 +36,10 @@ class Crawl extends Command
     public function handle()
     {
         $this->output->block('[Renick.Spider]');
+        $this->logger = new SiteCrawlLogger();
         $this->clearCache();
 
-        $sites = Site::listEnabled();
-        $this->logger = new SiteCrawlLogger();
-
-        foreach ($sites as /* @var SiteDefinition */ $site) {
+        foreach (Site::listEnabled() as /* @var SiteDefinition */ $site) {
             $this->output->section("Crawling Site ({$site->name})");
             $crawler = new SiteCrawler($site);
             if (!$crawler->isValid()) {

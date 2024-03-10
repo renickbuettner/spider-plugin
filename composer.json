@@ -4,11 +4,17 @@
     "description": "OctoberCMS plugin for crawling your local site, finding not found errors, warm up all caches and resizer images.",
     "require": {
         "composer/installers": "~1.0",
-        "spatie/crawler": "^8.0"
+        "renick/spatie-crawler": "dev-main"
     },
     "config": {
         "allow-plugins": {
             "composer/installers": true
+        }
+    },
+    "repositories": {
+        "renick/spatie-crawler": {
+            "type": "git",
+            "url": "git@github.com:renickbuettner/spatie-crawler.git"
         }
     }
 }

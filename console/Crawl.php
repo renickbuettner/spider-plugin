@@ -18,7 +18,7 @@ class Crawl extends Command
     /**
      * @var string signature for the console command.
      */
-    protected $signature = 'spider:crawl {--clear-cache}';
+    protected $signature = 'spider:crawl';
 
     /**
      * @var string description is the console command description
@@ -36,10 +36,7 @@ class Crawl extends Command
     public function handle()
     {
         $this->output->block('[Renick.Spider]');
-
-        if ($this->option('clear-cache')) {
-            $this->clearCache();
-        }
+        $this->clearCache();
 
         $sites = Site::listEnabled();
         $this->logger = new SiteCrawlLogger();

@@ -35,6 +35,7 @@ SPIDER_LOG_FILE=logs/spider.log
 
 SPIDER_CONCURRENCY=10
 SPIDER_CACHE_CLEAR=true
+SPIDER_CRON_SCHEDULE="1 1 * * *"
 SPIDER_CACHE_CLEAR_RESIZER=false
 SPIDER_USER_AGENT="Mozilla/5.0 (compatible; Renick.Spider/1.0;)"
 ```

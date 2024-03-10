@@ -1,6 +1,7 @@
 # Renick.Spider
 
 Just a simple OctoberCMS plugin for crawling your local installation.
+Laravel 10+ is required.
 
 - [x] crawl all pages to warmup your cache and resizer images
 - [x] find 404 not found errors in log file

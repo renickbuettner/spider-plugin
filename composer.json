@@ -4,6 +4,7 @@
     "description": "OctoberCMS plugin for crawling your local site, finding not found errors, warm up all caches and resizer images.",
     "require": {
         "composer/installers": "~1.0",
+        "laravel/framework": ">=10.0",
         "spatie/crawler": "^8.2.0"
     },
     "config": {

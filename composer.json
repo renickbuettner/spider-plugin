@@ -11,5 +11,5 @@
             "composer/installers": true,
             "php-http/discovery": true
         }
-    },
+    }
 }

@@ -64,12 +64,13 @@ class SiteCrawler
 
         return Crawler::create($options)
             ->ignoreRobots()
-            ->acceptNofollowLinks()
-            ->setCrawlObserver($observer)
             ->setCrawlQueue($queue)
+            ->acceptNofollowLinks()
+            ->addCrawlObserver($observer)
             ->setCrawlProfile($this->getCrawlProfile())
             ->setUserAgent(Plugin::getCrawlerUserAgent())
             ->setConcurrency(Plugin::getCrawlerConcurrency())
+            ->setUrlParserClass(SiteLinkUrlParser::class)
             ->setMaximumResponseSize(Plugin::getCrawlerMaxResponseSize());
     }
 

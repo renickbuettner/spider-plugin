@@ -41,6 +41,10 @@ SPIDER_CACHE_CLEAR_RESIZER=false
 SPIDER_USER_AGENT="Mozilla/5.0 (compatible; Renick.Spider/1.0;)"
 ```
 
+### Cloudflare adjustments
+
+If you use Cloudflare, you should set up a Cache Rule to bypass the cache for the user agent contains `Renick.Spider`.
+
 ---
 
 

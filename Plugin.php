@@ -1,5 +1,6 @@
 <?php namespace Renick\Spider;
 
+use Backend;
 use Renick\Spider\Console\Crawl;
 use System\Classes\PluginBase;
 
@@ -47,6 +48,30 @@ class Plugin extends PluginBase
         $schedule->command('spider.crawl')
             ->cron($timing)
             ->withoutOverlapping();
+    }
+
+    public function registerPermissions(): array
+    {
+        return [
+            'renick.spider.overview' => [
+                'tab'   => 'renick.spider::lang.permissions.tab',
+                'label' => 'renick.spider::lang.permissions.label',
+                'roles' => ['developer'],
+            ],
+        ];
+    }
+
+    public function registerNavigation(): array
+    {
+        return [
+            'spider' => [
+                'icon' => 'icon-bug',
+                'label' => 'renick.spider::lang.plugin.name',
+                'url' => Backend::url('renick/spider/overview/index'),
+                'permissions' => ['renick.spider.overview'],
+                'order' => 600,
+            ]
+        ];
     }
 
     public function boot()

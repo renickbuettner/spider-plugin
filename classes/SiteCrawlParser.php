@@ -33,8 +33,8 @@ class SiteCrawlParser
             $matches = [];
             preg_match('/\[\w+\]:\((\d{3})\) (([\/\.\d\w\:\-]+))/im', $line, $matches);
             return [
-                'status_code' => $matches[1],
-                'url' => $matches[2]
+                'status_code' => $matches[1] ?? -1,
+                'url' => $matches[2] ?? '-'
             ];
 
         } catch (\Exception $e) {

@@ -57,7 +57,7 @@
     <div class="container">
         <h1 class="mb-4"><?= trans("renick.spider::lang.overview.title") ?></h1>
         <small class="d-block mb-4">
-            <i class="icon-calendar"></i> <?= $date->isoFormat('lll') ?>
+            <i class="icon-calendar"></i> <?= !empty($date) ? $date->isoFormat('lll') : '-' ?>
         </small>
 
         <?php if (empty($data)): ?>
@@ -74,11 +74,11 @@
             <?php foreach ($data as $row): ?>
             <tr>
                 <td>
-                    <?php if ($row['status_code'] == 200): ?>
+                    <?php if ($row['status_code'] ?? -1 == 200): ?>
                         <span class="list-badge badge-info">
                             <i class="icon-info"></i>
                         </span>
-                    <?php elseif ($row['status_code'] == 404): ?>
+                    <?php elseif ($row['status_code'] ?? -1 == 404): ?>
                         <span class="list-badge badge-danger">
                             <i class="icon-times"></i>
                         </span>

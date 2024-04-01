@@ -18,7 +18,9 @@ class SiteCrawlParser
         $data = [];
 
         while (($line = fgets($file)) !== false) {
-            $data[] = $this->parseLine($line);
+            if (is_string($line) && !empty($line)) {
+                $data[] = $this->parseLine($line);
+            }
         }
 
         fclose($file);

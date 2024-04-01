@@ -25,7 +25,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        const setupOverview = () => {
             const filterOptions = document.querySelectorAll('#filter-selectors li');
             filterOptions.forEach(function (option) {
                 option.addEventListener('click', function () {
@@ -49,7 +49,9 @@
             const value = location.searchParams.get('filter');
             const selectedOption = document.querySelector(`#filter-selectors li[data-value="${value}"]`);
             selectedOption.classList.add('active');
-        });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => setTimeout(setupOverview, 600));
     </script>
 
     <div class="container">

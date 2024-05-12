@@ -14,6 +14,8 @@ class SiteCrawlParser
 
     public function parse(): array
     {
+        if (!file_exists($this->filePath)) return [];
+
         $file = fopen($this->filePath, 'r');
         $data = [];
 

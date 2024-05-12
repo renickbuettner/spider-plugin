@@ -44,8 +44,10 @@ class SiteCrawlParser
         }
     }
 
-    public function getDate(): Carbon
+    public function getDate(): ?Carbon
     {
+        if (!file_exists($this->filePath)) return null;
+
         return new Carbon(filemtime($this->filePath));
     }
 }

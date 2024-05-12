@@ -45,7 +45,7 @@ class Plugin extends PluginBase
         }
 
         $timing = env('SPIDER_CRON_SCHEDULE', self::CRAWLER_CRON_SCHEDULE);
-        $schedule->command('spider.crawl')
+        $schedule->command('spider:crawl')
             ->cron($timing)
             ->withoutOverlapping();
     }

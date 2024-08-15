@@ -20,7 +20,7 @@ class SiteLinkUrlParser implements UrlParser
         $this->crawler = $crawler;
     }
 
-    public function addFromHtml(string $html, UriInterface $foundOnUrl): void
+    public function addFromHtml(string $html, UriInterface $foundOnUrl, ?UriInterface $originalUrl = null): void
     {
         $allLinks = $this->extractLinksFromHtml($html, $foundOnUrl);
 

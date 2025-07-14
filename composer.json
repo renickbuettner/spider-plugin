@@ -5,7 +5,7 @@
     "require": {
         "composer/installers": "~1.0",
         "laravel/framework": ">=10.0",
-        "spatie/crawler": "8.2.3"
+        "spatie/crawler": "^8.2 || ^8.4"
     },
     "config": {
         "allow-plugins": {

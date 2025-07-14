@@ -76,7 +76,6 @@ class Plugin extends PluginBase
 
     public function boot()
     {
-        parent::boot();
         $this->registerConsoleCommand('spider.crawl', Crawl::class);
     }
 

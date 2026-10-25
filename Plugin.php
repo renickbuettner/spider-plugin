@@ -16,6 +16,7 @@ class Plugin extends PluginBase
     public const CRAWLER_MAX_RESPONSE_SIZE = 1024 * 1024 * 25;
     public const CRAWLER_LOG_MODE = 'SINGLE';
     public const CRAWLER_LOG_FILE = 'logs/spider.log';
+    public const CRAWLER_LOG_MAX_SIZE = 1024 * 1024 * 5;
     public const CRAWLER_CRON_SCHEDULE = '1 1 * * *'; // see: https://crontab.guru/
     public const CRAWLER_CRON_ENABLED = false;
 
@@ -100,6 +101,11 @@ class Plugin extends PluginBase
     public static function getLogMode(): string
     {
         return env('SPIDER_LOG_MODE', self::CRAWLER_LOG_MODE);
+    }
+
+    public static function getLogMaxSize(): int
+    {
+        return (int) env('SPIDER_LOG_MAX_SIZE', self::CRAWLER_LOG_MAX_SIZE);
     }
 
     public static function getLogFile(): string

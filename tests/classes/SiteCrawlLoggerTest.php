@@ -69,15 +69,33 @@ class SiteCrawlLoggerTest extends SpiderTestCase
         $this->assertSame("old\n[CRAWLED]:(200) http://a.test/\n", file_get_contents($this->file));
     }
 
-    /**
-     * Documents current behaviour: "failed" mode only truncates, successful
-     * crawls are still written (README suggests failed-only logging).
-     */
-    public function testFailedModeStillLogsSuccessfulCrawls(): void
+    public function testFailedModeOnlyLogsFailures(): void
     {
         $this->setEnv('SPIDER_LOG_MODE', 'failed');
         $logger = new SiteCrawlLogger();
         $logger->logCrawl(false, 'http://a.test/', 200);
-        $this->assertStringContainsString('[CRAWLED]', file_get_contents($this->file));
+        $logger->logCrawl(true, 'http://a.test/missing', 404);
+        $this->assertSame("[FAILED]:(404) http://a.test/missing\n", file_get_contents($this->file));
+    }
+
+    public function testAppendModeRotatesAboveMaxSize(): void
+    {
+        file_put_contents($this->file, str_repeat('x', 200));
+        $this->setEnv('SPIDER_LOG_MODE', 'append');
+        $this->setEnv('SPIDER_LOG_MAX_SIZE', '100');
+        $logger = new SiteCrawlLogger();
+        $logger->logCrawl(false, 'http://a.test/', 200);
+        $this->assertSame("[CRAWLED]:(200) http://a.test/\n", file_get_contents($this->file));
+        $this->assertSame(200, filesize($this->file . '.1'));
+        @unlink($this->file . '.1');
+    }
+
+    public function testAppendModeDoesNotRotateBelowMaxSize(): void
+    {
+        file_put_contents($this->file, "old\n");
+        $this->setEnv('SPIDER_LOG_MODE', 'append');
+        $this->setEnv('SPIDER_LOG_MAX_SIZE', '100');
+        new SiteCrawlLogger();
+        $this->assertFileDoesNotExist($this->file . '.1');
     }
 }

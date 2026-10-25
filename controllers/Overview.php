@@ -4,7 +4,9 @@ use Artisan;
 use BackendMenu;
 use Backend\Classes\Controller;
 use Flash;
+use Renick\Spider\Classes\SiteCrawler;
 use Renick\Spider\Classes\SiteCrawlParser;
+use Site;
 use SystemException;
 
 /**
@@ -52,11 +54,19 @@ class Overview extends Controller
 
     public function onScheduleRun()
     {
+        $warned = false;
+        foreach (Site::listEnabled() as $site) {
+            if (!(new SiteCrawler($site))->isValid()) {
+                $warned = true;
+                Flash::warning(trans('renick.spider::lang.overview.run_url_unreachable', ['url' => (string) $site->base_url]));
+            }
+        }
+
         if (config('queue.default') === 'sync') {
             dispatch(fn () => Artisan::call('spider:crawl'))->afterResponse();
         } else {
             Artisan::queue('spider:crawl');
         }
-        Flash::info(trans('renick.spider::lang.overview.run_scheduled'));
+        $warned || Flash::info(trans('renick.spider::lang.overview.run_scheduled'));
     }
 }

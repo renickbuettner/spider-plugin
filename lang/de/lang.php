@@ -18,6 +18,7 @@ return [
         ],
         'run_scheduled' => 'Ein Crawl wurde in die Queue eingereiht',
         'scheduling' => 'Starten...',
+        'run_url_unreachable' => 'Die Site-URL :url ist vom Server aus nicht erreichbar, der Crawl kann fehlschlagen',
         'schedule_run' => 'Crawl starten',
     ],
     'permissions' => [

@@ -46,8 +46,9 @@ You can set up the behavior of this plug-in heavily with environment variables. 
 ```dotenv
 SPIDER_CRON_ENABLED=true
 
-SPIDER_LOG_MODE=single|append|failed
+SPIDER_LOG_MODE=single|append|failed # single: last run only, append: keep history, failed: last run, errors only
 SPIDER_LOG_FILE=logs/spider.log
+SPIDER_LOG_MAX_SIZE=5242880 # bytes; in append mode the log is rotated to spider.log.1 above this size
 
 SPIDER_CONCURRENCY=10
 SPIDER_CACHE_CLEAR=true

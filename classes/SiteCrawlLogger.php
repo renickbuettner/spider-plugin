@@ -14,6 +14,18 @@ class SiteCrawlLogger
         if ($this->logMode === 'single' ||
             $this->logMode === 'failed') {
             $this->emptyLog();
+        } elseif ($this->logMode === 'append') {
+            $this->rotateLog();
+        }
+    }
+
+    protected function rotateLog(): void
+    {
+        $path = $this->getFilePath();
+        $max = Plugin::getLogMaxSize();
+
+        if ($max > 0 && is_file($path) && filesize($path) > $max) {
+            rename($path, $path . '.1');
         }
     }
 
@@ -24,6 +36,10 @@ class SiteCrawlLogger
 
     public function logCrawl(bool $isError, string $url, int $statusCode, ?string $foundOnUrl = null): void
     {
+        if ($this->logMode === 'failed' && !$isError) {
+            return;
+        }
+
         $prefix = $isError ? '[FAILED]' : '[CRAWLED]';
         $message = "{$prefix}:({$statusCode}) {$url}";
         $this->writeLine($message);

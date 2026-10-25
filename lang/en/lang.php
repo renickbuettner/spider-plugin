@@ -18,6 +18,7 @@ return [
         ],
         'run_scheduled' => 'A crawl has been queued',
         'scheduling' => 'Scheduling...',
+        'run_url_unreachable' => 'Site URL :url is not reachable from the server, the crawl may fail',
         'schedule_run' => 'Schedule run',
     ],
     'permissions' => [

@@ -20,7 +20,7 @@ class SiteCrawlParser
         $data = [];
 
         while (($line = fgets($file)) !== false) {
-            if (is_string($line) && !empty($line)) {
+            if (is_string($line) && trim($line) !== '') {
                 $data[] = $this->parseLine($line);
             }
         }
@@ -33,7 +33,7 @@ class SiteCrawlParser
     {
         try {
             $matches = [];
-            preg_match('/\[\w+\]:\((\d{3})\) (([\/\.\d\w\:\-]+))/im', $line, $matches);
+            preg_match('/\[\w+\]:\((\d{3})\) (\S+)/', $line, $matches);
             return [
                 'status_code' => $matches[1] ?? -1,
                 'url' => $matches[2] ?? '-'

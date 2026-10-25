@@ -2,6 +2,7 @@
 
 use GuzzleHttp\RequestOptions;
 use Http;
+use Illuminate\Http\Client\ConnectionException;
 use Renick\Spider\Classes\Compat\CrawlerAdapter;
 use Renick\Spider\Classes\Compat\CrawlerAdapterFactory;
 use Renick\Spider\Plugin;
@@ -20,7 +21,7 @@ class SiteCrawler
 
     protected function getBaseUrlResponse(): \GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response
     {
-        return Http::withOptions(['verify' => false])->get($this->appUrl);
+        return Http::timeout(10)->withOptions(['verify' => false])->get($this->appUrl);
     }
 
     public function isValid(): bool
@@ -30,7 +31,11 @@ class SiteCrawler
             return false;
         }
 
-        return $this->getBaseUrlResponse()->successful();
+        try {
+            return $this->getBaseUrlResponse()->successful();
+        } catch (ConnectionException $e) {
+            return false;
+        }
     }
 
     public function getBaseUrlStatusCode(): int

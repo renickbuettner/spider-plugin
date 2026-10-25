@@ -64,14 +64,16 @@ class SiteCrawlParserTest extends SpiderTestCase
         $this->assertSame(1700000000, $date->getTimestamp());
     }
 
-    /**
-     * Documents current behaviour: the URL regex has no "?", "&", "=" or "%",
-     * so query strings are cut off in the overview.
-     */
-    public function testQueryStringIsTruncatedByRegex(): void
+    public function testQueryStringIsKept(): void
     {
-        file_put_contents($this->file, "[CRAWLED]:(200) http://a.test/page?x=1&y=2\n");
+        file_put_contents($this->file, "[CRAWLED]:(200) http://a.test/page?x=1&y=2%20z\n");
         $rows = (new SiteCrawlParser())->parse();
-        $this->assertSame('http://a.test/page', $rows[0]['url']);
+        $this->assertSame('http://a.test/page?x=1&y=2%20z', $rows[0]['url']);
+    }
+
+    public function testBlankLinesAreSkipped(): void
+    {
+        file_put_contents($this->file, "\n[CRAWLED]:(200) http://a.test/\n   \n");
+        $this->assertCount(1, (new SiteCrawlParser())->parse());
     }
 }

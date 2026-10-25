@@ -90,4 +90,12 @@ class SiteCrawlerTest extends SpiderTestCase
         $this->assertFalse($c->mustRespectRobots());
         $this->assertFalse($c->mustRejectNofollowLinks());
     }
+
+    public function testConnectionErrorMakesSiteInvalidInsteadOfThrowing(): void
+    {
+        \Http::fake(function () {
+            throw new \Illuminate\Http\Client\ConnectionException('refused');
+        });
+        $this->assertFalse((new SiteCrawler($this->site('http://a.test')))->isValid());
+    }
 }

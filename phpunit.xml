@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Run: php artisan plugin:test Renick.Spider -->
+<phpunit backupGlobals="false"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="Renick.Spider">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <env name="APP_ENV" value="testing" />
+        <env name="APP_LOCALE" value="en" />
+        <env name="CACHE_DRIVER" value="array" />
+        <env name="CACHE_STORE" value="array" />
+        <env name="SESSION_DRIVER" value="array" />
+        <env name="CMS_SAFE_MODE" value="false" />
+        <env name="DB_CONNECTION" value="sqlite" />
+        <env name="DB_DATABASE" value=":memory:" />
+        <env name="SPIDER_LOG_FILE" value="logs/spider-phpunit.log" />
+    </php>
+</phpunit>

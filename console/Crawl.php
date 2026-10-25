@@ -53,9 +53,9 @@ class Crawl extends Command
             );
 
             $observer = $this->getCrawlObserver();
-            $result = $crawler->startCrawling($observer);
+            $total = $crawler->startCrawling($observer);
 
-            $this->output->success("Successfully crawled {$result->getTotalCrawlCount()} urls.");
+            $this->output->success("Successfully crawled {$total} urls.");
             $this->getOutput()->newLine(2);
         }
     }

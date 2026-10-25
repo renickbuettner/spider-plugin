@@ -42,7 +42,7 @@ class Overview extends Controller
         $parser = new SiteCrawlParser();
 
         $this->vars['data'] = collect($parser->parse())
-            ->filter(fn ($row) => $filter === 'all' || intval($row['status_code']) > 400)
+            ->filter(fn ($row) => $filter !== 'errors' || intval($row['status_code']) >= 400)
             ->toArray();
 
         $this->vars['date'] = $parser->getDate();
@@ -52,7 +52,11 @@ class Overview extends Controller
 
     public function onScheduleRun()
     {
-        Artisan::queue('spider:crawl');
+        if (config('queue.default') === 'sync') {
+            dispatch(fn () => Artisan::call('spider:crawl'))->afterResponse();
+        } else {
+            Artisan::queue('spider:crawl');
+        }
         Flash::info(trans('renick.spider::lang.overview.run_scheduled'));
     }
 }

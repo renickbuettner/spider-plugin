@@ -5,7 +5,7 @@
                     <button type="button"
                             data-request="onScheduleRun"
                             data-request-message="<?= trans("renick.spider::lang.overview.scheduling") ?>"
-                            class="btn btn-primary oc-icon-spinner">Schedule run</button>
+                            class="btn btn-primary oc-icon-spinner"><?= trans("renick.spider::lang.overview.schedule_run") ?></button>
                 </div>
             </div>
 
@@ -74,11 +74,11 @@
             <?php foreach ($data as $row): ?>
             <tr>
                 <td>
-                    <?php if ($row['status_code'] ?? -1 == 200): ?>
+                    <?php if (($row['status_code'] ?? -1) == 200): ?>
                         <span class="list-badge badge-info">
                             <i class="icon-info"></i>
                         </span>
-                    <?php elseif ($row['status_code'] ?? -1 == 404): ?>
+                    <?php elseif (($row['status_code'] ?? -1) == 404): ?>
                         <span class="list-badge badge-danger">
                             <i class="icon-times"></i>
                         </span>

@@ -18,6 +18,7 @@ return [
         ],
         'run_scheduled' => 'Ein Crawl wurde in die Queue eingereiht',
         'scheduling' => 'Starten...',
+        'schedule_run' => 'Crawl starten',
     ],
     'permissions' => [
         'tab' => 'Spider',

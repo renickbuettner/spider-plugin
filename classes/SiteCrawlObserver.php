@@ -1,15 +1,17 @@
 <?php namespace Renick\Spider\Classes;
 
-use Spatie\Crawler\CrawlObservers\CrawlObserver;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
 
 /**
+ * Version independent observer; spatie/crawler 8.x and 9.x call it through the
+ * adapters in classes/compat.
+ *
  * @method callbackCrawled(UriInterface $url, int $statusCode, UriInterface|null $foundOnUrl)
  * @method callbackFailed(UriInterface $url, int $statusCode, UriInterface|null $foundOnUrl)
  */
-class SiteCrawlObserver extends CrawlObserver
+class SiteCrawlObserver
 {
     protected $callbackCrawled;
     protected $callbackFailed;
@@ -49,8 +51,7 @@ class SiteCrawlObserver extends CrawlObserver
         ?string $linkText = null,
     ): void
     {
-        if (!is_callable($this->callbackCrawled) ||
-            empty($this->callbackCrawled)) {
+        if (!is_callable($this->callbackFailed)) {
             return;
         }
 

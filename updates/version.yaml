@@ -7,3 +7,5 @@ v1.1.3: Fix minor issues (cron, type error)
 v1.1.4: Fix issue with spatie/crawler update
 v1.1.5: Compatability for October v4
 v1.1.6: Fix issue with spatie/crawler update
+v1.1.7: Fix status icons, failed-crawl callback, errors filter and translate schedule button
+v1.1.8: Support spatie/crawler 9, composer/installers 2 and Laravel 9

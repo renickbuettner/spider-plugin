@@ -18,6 +18,7 @@ return [
         ],
         'run_scheduled' => 'A crawl has been queued',
         'scheduling' => 'Scheduling...',
+        'schedule_run' => 'Schedule run',
     ],
     'permissions' => [
         'tab' => 'Spider',

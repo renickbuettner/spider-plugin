@@ -2,12 +2,9 @@
 
 use GuzzleHttp\RequestOptions;
 use Http;
+use Renick\Spider\Classes\Compat\CrawlerAdapter;
+use Renick\Spider\Classes\Compat\CrawlerAdapterFactory;
 use Renick\Spider\Plugin;
-use Spatie\Crawler\Crawler;
-use Spatie\Crawler\CrawlObservers\CrawlObserver;
-use Spatie\Crawler\CrawlProfiles\CrawlInternalUrls;
-use Spatie\Crawler\CrawlProfiles\CrawlProfile;
-use Spatie\Crawler\CrawlQueues\ArrayCrawlQueue;
 use System\Models\SiteDefinition;
 
 class SiteCrawler
@@ -41,14 +38,21 @@ class SiteCrawler
         return $this->getBaseUrlResponse()->status();
     }
 
-    public function startCrawling(CrawlObserver $observer): Crawler
+    /**
+     * Crawls the site and returns the total number of processed urls.
+     */
+    public function startCrawling(SiteCrawlObserver $observer): int
     {
         $crawler = $this->getCrawler($observer);
-        $crawler->startCrawling($this->appUrl);
-        return $crawler;
+        return $this->adapter()->run($crawler, $this->appUrl);
     }
 
-    protected function getCrawler(CrawlObserver $observer): Crawler
+    protected function adapter(): CrawlerAdapter
+    {
+        return CrawlerAdapterFactory::make();
+    }
+
+    protected function getCrawler(SiteCrawlObserver $observer): object
     {
         $options = [
             RequestOptions::TIMEOUT => 10,
@@ -59,24 +63,19 @@ class SiteCrawler
             RequestOptions::HEADERS => ['User-Agent' => Plugin::getCrawlerUserAgent()],
         ];
 
-        // ToDo: Do we need RedisCrawlQueue some day for large customers?
-        $queue = new ArrayCrawlQueue();
-
-        return Crawler::create($options)
-            ->ignoreRobots()
-            ->setCrawlQueue($queue)
-            ->acceptNofollowLinks()
-            ->addCrawlObserver($observer)
-            ->setCrawlProfile($this->getCrawlProfile())
-            ->setUserAgent(Plugin::getCrawlerUserAgent())
-            ->setConcurrency(Plugin::getCrawlerConcurrency())
-            ->setUrlParserClass(SiteLinkUrlParser::class)
-            ->setMaximumResponseSize(Plugin::getCrawlerMaxResponseSize());
+        return $this->adapter()->make(
+            $this->appUrl,
+            $observer,
+            $options,
+            Plugin::getCrawlerUserAgent(),
+            Plugin::getCrawlerConcurrency(),
+            Plugin::getCrawlerMaxResponseSize()
+        );
     }
 
-    protected function getCrawlProfile(): CrawlProfile
+    protected function getCrawlProfile(): object
     {
-        return new CrawlInternalUrls($this->appUrl);
+        return $this->adapter()->internalProfile($this->appUrl);
     }
 
 
